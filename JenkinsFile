@@ -1,0 +1,23 @@
+pipeline {
+    agent any
+    stages {
+        stage('Docker Build') {
+            steps {
+                script {
+                    sh "cd node_app/"
+                    echo "Building docker image..."
+                    sh "docker build -t sibinehru/node_app ."
+                    sh "docker push sibinehru/node_app"
+                }
+            }
+        }
+        stage ('Docker Deploy') {
+            steps {
+                script {
+                    echo "Deploying container...."
+                    sh "docker run -d -p 3000:3000 sibinehru/node_app"
+                }
+            }
+        }
+    }
+}
