@@ -1,13 +1,24 @@
 pipeline {
+
+    environment {
+        DOCKER_HUB_CREDS = credentials("dockerhubcreds")
+        IMAGE_NAME = "sibinehru/node_app"
+    }
     agent any
     stages {
         stage('Docker Build') {
             steps {
                 script {
-                    sh "cd node_app/"
-                    echo "Building docker image..."
-                    sh "docker build -t sibinehru/node_app ."
-                    sh "docker push sibinehru/node_app"
+                    sh "echo $PATH"
+                    git url: 'https://github.com/droidLight/devops_training.git'
+                    sh "ls -a"
+                    dir("node_app") {
+                        sh "ls -l"
+                        echo "Building docker image..."
+                        sh "docker build -t ${IMAGE_NAME} ."
+                        sh "echo ${DOCKER_HUB_CREDS_PSW} | docker login -u ${DOCKER_HUB_CREDS_USR} --password-stdin"
+                        sh "docker push ${IMAGE_NAME}"
+                    }
                 }
             }
         }
@@ -15,7 +26,7 @@ pipeline {
             steps {
                 script {
                     echo "Deploying container...."
-                    sh "docker run -d -p 3000:3000 sibinehru/node_app"
+                    sh "docker run -d -p 3000:3000 ${IMAGE_NAME}"
                 }
             }
         }
