@@ -6,6 +6,7 @@ pipeline {
             steps {
                 script {
                     git branch 'second_assignment' url: 'https://github.com/droidLight/devops_training.git'
+                    echo "Code pulled"
                 }
             }
         }
