@@ -5,7 +5,7 @@ pipeline {
         stage('Fetch') {
             steps {
                 script {
-                    git url: 'https://github.com/droidLight/devops_training.git'
+                    git branch 'second_assignment' url: 'https://github.com/droidLight/devops_training.git'
                 }
             }
         }
