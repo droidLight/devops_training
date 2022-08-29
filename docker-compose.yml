@@ -1,0 +1,29 @@
+version: '3'
+# Using the source files for the containers rather than the image. 
+# Use the image attribute to use the image directly
+services:
+  
+  app_container:
+    build: ./web-app
+    volumes:
+      - ./volumes/app/:/var/www/html/
+    ports:
+      - 8080:80
+    secrets:
+      - db_password
+      - db_username
+  
+  sql_container:
+    build: ./mysql-db
+    volumes:
+      - ./volumes/db/:/var/lib/mysql/
+    environment:
+      - MYSQL_ROOT_PASSWORD=root_password
+    ports:
+      - 4040:3306
+    
+secrets:
+  db_password:
+    file: db_password.txt
+  db_username:
+    file: db_username.txt
