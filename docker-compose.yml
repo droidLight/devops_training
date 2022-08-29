@@ -5,8 +5,6 @@ services:
   
   app_container:
     build: ./web-app
-    volumes:
-      - ./volumes/app/:/var/www/html/
     ports:
       - 8081:80
     secrets:
@@ -15,8 +13,6 @@ services:
   
   sql_container:
     build: ./mysql-db
-    volumes:
-      - ./volumes/db/:/var/lib/mysql/
     environment:
       - MYSQL_ROOT_PASSWORD=root_password
     ports:
